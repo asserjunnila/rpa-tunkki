@@ -32,11 +32,12 @@ def join_room(url):
 
 def add_video_to_playlist(list):
     for video in list:
-        print("VIDEO ADDED: ", video)
         driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(video)
         time.sleep(0.5)
         driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(Keys.ENTER)
         time.sleep(1)
+        print("VIDEO ADDED: ", video)
+
 
 def main():
     init_webdriver()
