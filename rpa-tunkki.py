@@ -23,7 +23,6 @@ def init_webdriver():
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')  # Last I checked this was necessary.
     driver = webdriver.Chrome(options=options)
-
     driver.maximize_window()
 
 def join_room(url):
@@ -36,6 +35,26 @@ def add_video_to_playlist(list):
         driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(Keys.ENTER)
         time.sleep(1)
         print("Video added ", video)
+
+
+def init_playlist_webdriver():
+    global playlist_driver
+    playlist_options = Options()
+    playlist_options.add_argument('--headless')
+    playlist_options.add_argument('--disable-gpu')  # Last I checked this was necessary.
+    playlist_driver = webdriver.Chrome(options=options)
+    playlist_driver.maximize_window()
+
+def join_playlist(url):
+    playlist_driver.get(url)
+
+def delete_videos_from_Youtube_playlist():
+    
+    time.sleep(0.5)
+    playlist_driver.find_element(By.XPATH, "//yt-icon-button[@class='dropdown-trigger style-scope ytd-menu-renderer']").send_keys(Keys.ENTER)
+    time.sleep(0.5)
+    playlist_driver.find_element(By.PATH, "//*[@id='items']/ytd-menu-service-item-renderer[4]").send_keys(Keys.ENTER)
+    time.sleep(0.5)
 
 
 def main():
@@ -57,5 +76,11 @@ def main():
     songs_in_scraped_playlist = list(dict.fromkeys(songs_in_scraped_playlist))
     
     add_video_to_playlist(songs_in_scraped_playlist)
+
+
+    # delete videos from playlist
+    init_playlist_webdriver()
+    join_playlist(playlist)
+    delete_videos_from_Youtube_playlist()
 
 main()
