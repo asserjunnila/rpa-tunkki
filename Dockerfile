@@ -1,8 +1,8 @@
-FROM selenium/standalone-chrome
+FROM selenium/standalone-chrome:91.0
 
-WORKDIR /tests
+WORKDIR /synctube-rpa-tunkki
 
-COPY test.py /tests
+COPY rpa-tunkki.py /synctube-rpa-tunkki
 
 RUN sudo apt update
 
@@ -12,4 +12,4 @@ RUN pip3 install selenium
 
 RUN pip3 install webdriver_manager
 
-ENTRYPOINT ["python3", "test.py"]
+ENTRYPOINT ["python3", "rpa-tunkki.py"]
