@@ -9,19 +9,19 @@ from urllib.request import urlopen
 import re
 
 try:
-  room = sys.argv[1]
-  playlist = sys.argv[2]
+    room = sys.argv[1]
+    playlist = sys.argv[2]
 except:
-  print("not enough arguments, quitting.")
-  quit()
+    print("not enough arguments, quitting.")
+    quit()
 
 driver = None
 
 def init_webdriver():
     global driver
     options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # Last I checked this was necessary.
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")  # Last I checked this was necessary.
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
 
@@ -32,34 +32,15 @@ def add_video_to_playlist(list):
     for video in list:
         driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(video)
         time.sleep(0.5)
-        driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(Keys.ENTER)
+        driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(
+            Keys.ENTER
+        )
         time.sleep(1)
         print("Video added ", video)
 
-
-def init_playlist_webdriver():
-    global playlist_driver
-    playlist_options = Options()
-    playlist_options.add_argument('--headless')
-    playlist_options.add_argument('--disable-gpu')  # Last I checked this was necessary.
-    playlist_driver = webdriver.Chrome(options=options)
-    playlist_driver.maximize_window()
-
-def join_playlist(url):
-    playlist_driver.get(url)
-
-def delete_videos_from_Youtube_playlist():
-    
-    time.sleep(0.5)
-    playlist_driver.find_element(By.XPATH, "//yt-icon-button[@class='dropdown-trigger style-scope ytd-menu-renderer']").send_keys(Keys.ENTER)
-    time.sleep(0.5)
-    playlist_driver.find_element(By.PATH, "//*[@id='items']/ytd-menu-service-item-renderer[4]").send_keys(Keys.ENTER)
-    time.sleep(0.5)
-
-
 def main():
     init_webdriver()
-    join_room("https://sync-tube.de/rooms/"+str(room))
+    join_room("https://sync-tube.de/rooms/" + str(room))
     print("Joining SyncTube room {}".format(str(room)))
     url = playlist
     page = urlopen(url)
@@ -71,16 +52,10 @@ def main():
     songs_in_scraped_playlist = []
 
     for id in res:
-        songs_in_scraped_playlist.append("https://www.youtube.com/watch?v=" + material[(id+8):(id+8+11)])
-
+        songs_in_scraped_playlist.append(
+            "https://www.youtube.com/watch?v=" + material[(id + 8) : (id + 8 + 11)]
+        )
     songs_in_scraped_playlist = list(dict.fromkeys(songs_in_scraped_playlist))
-    
     add_video_to_playlist(songs_in_scraped_playlist)
-
-
-    # delete videos from playlist
-    init_playlist_webdriver()
-    join_playlist(playlist)
-    delete_videos_from_Youtube_playlist()
 
 main()
