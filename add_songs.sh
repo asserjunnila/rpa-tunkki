@@ -13,4 +13,4 @@ set -k
 set -a
 
 ## 2 args: the synctube room id and youtubeplaylist url
-docker run --rm --name synctubeRPAtunkki rpa-tunkki:0.9 $@
+docker run --rm --name synctubeRPAtunkki rpa-tunkki:shit $@
