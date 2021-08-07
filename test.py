@@ -22,7 +22,9 @@ def init_webdriver():
     options = Options()
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')  # Last I checked this was necessary.
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    # driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(options=options)
+
     driver.maximize_window()
 
 def join_room(url):
@@ -40,7 +42,6 @@ def main():
     init_webdriver()
     join_room("https://sync-tube.de/rooms/"+str(room))
     
-  
     url = playlist
     page = urlopen(url)
     html_bytes = page.read()
