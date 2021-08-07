@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+
 import time
 import sys
 from urllib.request import urlopen
@@ -22,7 +22,6 @@ def init_webdriver():
     options = Options()
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')  # Last I checked this was necessary.
-    # driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver = webdriver.Chrome(options=options)
 
     driver.maximize_window()
@@ -36,13 +35,13 @@ def add_video_to_playlist(list):
         time.sleep(0.5)
         driver.find_element(By.XPATH, "//input[@class='searchInput']").send_keys(Keys.ENTER)
         time.sleep(1)
-        print("VIDEO ADDED: ", video)
+        print("Video added ", video)
 
 
 def main():
     init_webdriver()
     join_room("https://sync-tube.de/rooms/"+str(room))
-    
+    print("Joining SyncTube room {}".format(str(room)))
     url = playlist
     page = urlopen(url)
     html_bytes = page.read()

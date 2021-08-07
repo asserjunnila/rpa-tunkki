@@ -10,6 +10,4 @@ RUN sudo apt install -y python3-pip
 
 RUN pip3 install selenium
 
-RUN pip3 install webdriver_manager
-
 ENTRYPOINT ["python3", "rpa-tunkki.py"]
